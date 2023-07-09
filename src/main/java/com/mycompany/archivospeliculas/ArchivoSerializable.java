@@ -4,6 +4,7 @@
  */
 package com.mycompany.archivospeliculas;
 
+import com.mycompany.archivospeliculas.formularios.Ayuda;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class ArchivoSerializable<T> {
                 oos.writeObject(c.get(i));
             }
         } catch (IOException e) {
-            System.err.println("Error al escribir en el archivo");
+            Ayuda.mensajeError("Error al escribir en el archivo");
             System.exit(1);
         }
     }
@@ -44,7 +45,7 @@ public class ArchivoSerializable<T> {
         } catch (EOFException endOfFile) {
             return c;
         } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Error al leer del archivo");
+            Ayuda.mensajeError("Error al leer del archivo");
             System.exit(1);
         }
         return c;

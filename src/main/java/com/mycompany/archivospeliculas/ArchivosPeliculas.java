@@ -4,6 +4,8 @@
 
 package com.mycompany.archivospeliculas;
 
+import com.mycompany.archivospeliculas.formularios.Frm_AgregarPelicula;
+import com.mycompany.archivospeliculas.formularios.Frm_RegistrarUsuario;
 import java.util.Scanner;
 
 /**
@@ -30,18 +32,19 @@ public class ArchivosPeliculas {
 
             switch (opcion) {
                 case 1: {
-                    System.out.print("Ingrese el identificador de la pelicula: ");
-                    int identificador = myScanner.nextInt();
-                    myScanner.nextLine();
-                    System.out.print("Ingrese el nombre de la pelicula: ");
-                    String nombre = myScanner.nextLine();
-                    System.out.print("Ingrese el nombre del actor principal: ");
-                    String actorPrincipal = myScanner.nextLine();
-                    System.out.print("Ingrese el genero de la pelicula: ");
-                    String genero = myScanner.nextLine();
-                    System.out.print("Ingrese la duracion de la pelicula: ");
-                    int duracion = myScanner.nextInt();
-                    coleccionActual.agregar(new Pelicula(identificador, nombre, actorPrincipal, genero, duracion));
+//                    System.out.print("Ingrese el identificador de la pelicula: ");
+//                    int identificador = myScanner.nextInt();
+//                    myScanner.nextLine();
+//                    System.out.print("Ingrese el nombre de la pelicula: ");
+//                    String nombre = myScanner.nextLine();
+//                    System.out.print("Ingrese el nombre del actor principal: ");
+//                    String actorPrincipal = myScanner.nextLine();
+//                    System.out.print("Ingrese el genero de la pelicula: ");
+//                    String genero = myScanner.nextLine();
+//                    System.out.print("Ingrese la duracion de la pelicula: ");
+//                    int duracion = myScanner.nextInt();
+//                    coleccionActual.agregar(new Pelicula(identificador, nombre, actorPrincipal, genero, duracion));
+                    Frm_AgregarPelicula form = new Frm_AgregarPelicula(coleccionActual);
                     break;
                 }
                 case 2: {
@@ -114,11 +117,7 @@ public class ArchivosPeliculas {
                     break;
                 }
                 case 2: {
-                    System.out.print("Ingrese su nombre de usuario: ");
-                    String nombreUsuario = myScanner.nextLine();
-                    System.out.print("Ingrese su contraseña: ");
-                    String contrasena = myScanner.nextLine();
-                    listaUsuarios.registrar(new Usuario(nombreUsuario, contrasena));
+                    Frm_RegistrarUsuario formReg = new Frm_RegistrarUsuario(listaUsuarios);
                     break;
                 }
                 case 0: {

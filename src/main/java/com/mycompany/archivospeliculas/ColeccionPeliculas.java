@@ -4,9 +4,11 @@
  */
 package com.mycompany.archivospeliculas;
 
+import com.mycompany.archivospeliculas.formularios.Ayuda;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,7 +30,7 @@ public class ColeccionPeliculas {
     public void agregar(Pelicula pelicula){
         for (int i = 0; i < tamanio(); ++i) {
             if (obtener(i).getIdentificador() == pelicula.getIdentificador()) {
-                System.out.println("Ya existe una pelicula con este identificador");
+                Ayuda.mensajeError("Ya existe una pelicula con este identificador");
                 return;
             }
         }
@@ -46,7 +48,7 @@ public class ColeccionPeliculas {
 
     public void buscarPorID(int id) {
         if (coleccionVacia()) {
-            System.out.println("No hay peliculas en la coleccion");
+            Ayuda.mensajeError("No hay peliculas en la coleccion");
             return;
         }
         for (int i = 0; i < tamanio(); ++i) {
@@ -55,13 +57,13 @@ public class ColeccionPeliculas {
                 return;
             }
         }
-        System.out.println("No se encontro la pelicula con este ID");
+        Ayuda.mensajeError("No se encontro la pelicula con este ID");
     }
 
     public void vaciarColeccion(){
         coleccion.clear();
         archivoSerializable.escribirArchivo(coleccion);
-        System.out.println("Se vacio la coleccion");
+        Ayuda.mensajeExito("Se vació esta colección");
     }
 
     public Pelicula obtener(int indice) {
@@ -70,23 +72,23 @@ public class ColeccionPeliculas {
 
     public void eliminar(int id){
         if (coleccionVacia()) {
-            System.out.println("No hay peliculas en la coleccion");
+            Ayuda.mensajeError("No hay peliculas en la coleccion");
             return;
         }
         for (int i = 0; i < tamanio(); ++i) {
             if (obtener(i).getIdentificador() == id) {
-                System.out.println("Se elimino la pelicula: " + coleccion.remove(i).getNombre());
+                Ayuda.mensajeExito("Se elimino la pelicula: " + coleccion.remove(i).getNombre());
                 archivoSerializable.escribirArchivo(coleccion);
                 return;
             }
         }
-        System.out.println("No se encontro la pelicula con este identificador");
+        Ayuda.mensajeError("No se encontró una pelicula con este ID");
     }
 
     // forNormal
     public void mostrarFor() {
         if (coleccionVacia())
-            System.out.println("No hay peliculas en la coleccion");
+            Ayuda.mensajeError("No hay peliculas en la coleccion");
         else {
             coleccion = archivoSerializable.leerArchivo();
             for (int i = 0; i < tamanio(); ++i) {
@@ -98,7 +100,7 @@ public class ColeccionPeliculas {
     // forEach
     public void mostrarForEach() {
         if (coleccionVacia())
-            System.out.println("No hay peliculas en la coleccion");
+            Ayuda.mensajeError("No hay peliculas en la coleccion");
         else {
             coleccion = archivoSerializable.leerArchivo();
             for (Pelicula p : coleccion) {
@@ -110,7 +112,7 @@ public class ColeccionPeliculas {
     // iterator
     public void mostrarIterator() {
         if (coleccionVacia())
-            System.out.println("No hay peliculas en la coleccion");
+            Ayuda.mensajeError("No hay peliculas en la coleccion");
         else {
             coleccion = archivoSerializable.leerArchivo();
             Iterator<Pelicula> it = coleccion.iterator();
@@ -123,7 +125,7 @@ public class ColeccionPeliculas {
     // Ordenar por nombre
     public void mostrarOrdenadoPorNombre() {
         if (coleccionVacia()) {
-            System.out.println("No hay peliculas en la coleccion");
+            Ayuda.mensajeError("No hay peliculas en la coleccion");
         }
         else {
             coleccion = archivoSerializable.leerArchivo();
@@ -137,7 +139,7 @@ public class ColeccionPeliculas {
     // Ordenar por duracion al reves
     public void mostrarOrdenadoPorDuracionInverso() {
         if (coleccionVacia())
-            System.out.println("No hay peliculas en la coleccion");
+            Ayuda.mensajeError("No hay peliculas en la coleccion");
         else {
             coleccion = archivoSerializable.leerArchivo();
             coleccion.sort(new ComparadorDuracionInverso());

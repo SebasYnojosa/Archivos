@@ -4,6 +4,7 @@
  */
 package com.mycompany.archivospeliculas;
 
+import com.mycompany.archivospeliculas.formularios.Ayuda;
 import java.util.ArrayList;
 
 /**
@@ -25,13 +26,13 @@ public class ListaUsuarios {
     public void registrar(Usuario usuario) {
         for (int i = 0; i < listaUsuarios.size(); ++i) {
             if (listaUsuarios.get(i).getNombre().equals(usuario.getNombre())) {
-                System.out.println("Ya existe un usuario con este nombre");
+                Ayuda.mensajeError("Ya existe un usuario con este nombre");
                 return;
             }
         }
         listaUsuarios.add(usuario);
         archivoSerializable.escribirArchivo(listaUsuarios);
-        System.out.println("Usuario registrado exitosamente");
+        Ayuda.mensajeExito("Usuario registrado exitosamente");
     }
     
     public int tam() {
