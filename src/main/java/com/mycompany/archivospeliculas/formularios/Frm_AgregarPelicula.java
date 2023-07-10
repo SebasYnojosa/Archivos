@@ -4,8 +4,11 @@
  */
 package com.mycompany.archivospeliculas.formularios;
 
+import com.mycompany.archivospeliculas.ArchivosPeliculas;
 import com.mycompany.archivospeliculas.ColeccionPeliculas;
 import com.mycompany.archivospeliculas.Pelicula;
+import java.util.HashSet;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -21,8 +24,10 @@ public class Frm_AgregarPelicula extends javax.swing.JFrame {
     public Frm_AgregarPelicula(ColeccionPeliculas c) {
         initComponents();
         coleccion = c;
+        this.setTitle(ArchivosPeliculas.getUsuarioNombre());
         this.setResizable(false);
         this.setVisible(true);
+        jL_error.setVisible(false);
     }
 
     /**
@@ -49,8 +54,10 @@ public class Frm_AgregarPelicula extends javax.swing.JFrame {
         jTF_duracion = new javax.swing.JTextField();
         jB_guardar = new javax.swing.JButton();
         jB_cerrar = new javax.swing.JButton();
+        jL_error = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 255));
 
@@ -64,7 +71,7 @@ public class Frm_AgregarPelicula extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(156, 156, 156)
+                .addGap(204, 204, 204)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -128,7 +135,7 @@ public class Frm_AgregarPelicula extends javax.swing.JFrame {
                         .addComponent(jCB_genero, 0, 202, Short.MAX_VALUE)
                         .addComponent(jTF_identificador, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTF_duracion, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,6 +164,11 @@ public class Frm_AgregarPelicula extends javax.swing.JFrame {
         );
 
         jB_guardar.setText("Guardar");
+        jB_guardar.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jB_guardarStateChanged(evt);
+            }
+        });
         jB_guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jB_guardarActionPerformed(evt);
@@ -170,6 +182,9 @@ public class Frm_AgregarPelicula extends javax.swing.JFrame {
             }
         });
 
+        jL_error.setForeground(new java.awt.Color(255, 0, 0));
+        jL_error.setText("Para guardar la pelicula todos los campos deben estar llenos");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -181,6 +196,8 @@ public class Frm_AgregarPelicula extends javax.swing.JFrame {
                 .addComponent(jB_guardar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jB_cerrar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jL_error)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -192,7 +209,8 @@ public class Frm_AgregarPelicula extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jB_guardar)
-                    .addComponent(jB_cerrar))
+                    .addComponent(jB_cerrar)
+                    .addComponent(jL_error))
                 .addGap(0, 11, Short.MAX_VALUE))
         );
 
@@ -221,23 +239,41 @@ public class Frm_AgregarPelicula extends javax.swing.JFrame {
     }//GEN-LAST:event_jTF_duracionKeyTyped
 
     private void jB_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_guardarActionPerformed
-        int identificador = Integer.parseInt(jTF_identificador.getText());
-        String nombre = jTF_nombre.getText();
-        String actor = jTF_actor.getText();
-        String genero = jCB_genero.getSelectedItem().toString();
-        int duracion = Integer.parseInt(jTF_duracion.getText());
-        coleccion.agregar(new Pelicula(identificador, nombre, actor, genero, duracion));
+        if (jTF_identificador.getText().isBlank() ||
+                jTF_nombre.getText().isBlank() ||
+                jTF_actor.getText().isBlank() ||
+                jTF_duracion.getText().isBlank())
+            jL_error.setVisible(true);
+        else {
+            int identificador = Integer.parseInt(jTF_identificador.getText());
+            String nombre = jTF_nombre.getText();
+            String actor = jTF_actor.getText();
+            String genero = jCB_genero.getSelectedItem().toString();
+            int duracion = Integer.parseInt(jTF_duracion.getText());
+            coleccion.agregar(new Pelicula(identificador, nombre, actor, genero, duracion));
+            jL_error.setVisible(false);
+            jTF_identificador.setText("");
+            jTF_nombre.setText("");
+            jTF_actor.setText("");
+            jCB_genero.setSelectedIndex(0);
+            jTF_duracion.setText("");
+        }
     }//GEN-LAST:event_jB_guardarActionPerformed
 
     private void jB_cerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_cerrarActionPerformed
         this.dispose();
     }//GEN-LAST:event_jB_cerrarActionPerformed
 
+    private void jB_guardarStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jB_guardarStateChanged
+        
+    }//GEN-LAST:event_jB_guardarStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_cerrar;
     private javax.swing.JButton jB_guardar;
     private javax.swing.JComboBox<String> jCB_genero;
+    private javax.swing.JLabel jL_error;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

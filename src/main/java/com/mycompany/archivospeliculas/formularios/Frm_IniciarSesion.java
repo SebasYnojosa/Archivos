@@ -4,6 +4,7 @@
  */
 package com.mycompany.archivospeliculas.formularios;
 
+import com.mycompany.archivospeliculas.ArchivosPeliculas;
 import com.mycompany.archivospeliculas.ListaUsuarios;
 import com.mycompany.archivospeliculas.Usuario;
 
@@ -11,19 +12,20 @@ import com.mycompany.archivospeliculas.Usuario;
  *
  * @author emili
  */
-public class Frm_RegistrarUsuario extends javax.swing.JFrame {
+public class Frm_IniciarSesion extends javax.swing.JFrame {
     private ListaUsuarios listaUsuarios;
 
     /**
-     * Creates new form Frm_RegistrarUsuario
+     * Creates new form Frm_IniciarSesion
      */
-    public Frm_RegistrarUsuario(ListaUsuarios lu) {
+    public Frm_IniciarSesion(ListaUsuarios lu) {
         initComponents();
         listaUsuarios = lu;
-        this.setTitle("Registro de usuario");
+        this.setTitle("Inicio de sesión");
+        jL_error1.setVisible(false);
+        jL_error2.setVisible(false);
         this.setResizable(false);
         this.setVisible(true);
-        jL_error.setVisible(false);
     }
 
     /**
@@ -42,10 +44,10 @@ public class Frm_RegistrarUsuario extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jTF_usuario = new javax.swing.JTextField();
         jPF_contraseña = new javax.swing.JPasswordField();
-        jLabel2 = new javax.swing.JLabel();
-        jB_registrar = new javax.swing.JButton();
         jB_cerrar = new javax.swing.JButton();
-        jL_error = new javax.swing.JLabel();
+        jB_iniciar = new javax.swing.JButton();
+        jL_error1 = new javax.swing.JLabel();
+        jL_error2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -55,7 +57,7 @@ public class Frm_RegistrarUsuario extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Registrar Usuario");
+        jLabel1.setText("Iniciar Sesión");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -81,8 +83,6 @@ public class Frm_RegistrarUsuario extends javax.swing.JFrame {
 
         jLabel4.setText("Contraseña");
 
-        jLabel2.setText("(Mínimo 8 carácteres)");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -96,8 +96,6 @@ public class Frm_RegistrarUsuario extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTF_usuario, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
                     .addComponent(jPF_contraseña))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -110,17 +108,9 @@ public class Frm_RegistrarUsuario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jPF_contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
-
-        jB_registrar.setText("Registrar");
-        jB_registrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jB_registrarActionPerformed(evt);
-            }
-        });
 
         jB_cerrar.setText("Cerrar");
         jB_cerrar.addActionListener(new java.awt.event.ActionListener() {
@@ -129,8 +119,18 @@ public class Frm_RegistrarUsuario extends javax.swing.JFrame {
             }
         });
 
-        jL_error.setForeground(new java.awt.Color(255, 0, 0));
-        jL_error.setText("Para guardar la pelicula todos los campos deben estar llenos");
+        jB_iniciar.setText("Iniciar");
+        jB_iniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_iniciarActionPerformed(evt);
+            }
+        });
+
+        jL_error1.setForeground(new java.awt.Color(255, 0, 0));
+        jL_error1.setText("Todos los campos deben estar llenos");
+
+        jL_error2.setForeground(new java.awt.Color(255, 0, 0));
+        jL_error2.setText("El usuario y/o la contraseña son incorrectos");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -139,13 +139,15 @@ public class Frm_RegistrarUsuario extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addComponent(jB_registrar)
+                .addContainerGap()
+                .addComponent(jB_iniciar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jB_cerrar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(jL_error)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jL_error1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jL_error2, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,41 +155,58 @@ public class Frm_RegistrarUsuario extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jB_registrar)
-                    .addComponent(jB_cerrar)
-                    .addComponent(jL_error))
-                .addGap(0, 11, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jL_error2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jL_error1)
+                        .addGap(0, 3, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jB_cerrar)
+                            .addComponent(jB_iniciar))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jB_registrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_registrarActionPerformed
-        if (jTF_usuario.getText().isBlank() ||
-                jPF_contraseña.getPassword().length < 8) {
-            jL_error.setVisible(true);
+    private void jB_iniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_iniciarActionPerformed
+        Usuario usuario;
+        if (jTF_usuario.getText().isBlank() || 
+                jPF_contraseña.getPassword().length == 0){
+            jL_error1.setVisible(true);
+            jL_error2.setVisible(false);
         }
         else {
-            String usuario = jTF_usuario.getText();
-            char[] cont = jPF_contraseña.getPassword();
-            listaUsuarios.registrar(new Usuario(usuario,Ayuda.construirContraseña(cont)));
-            this.dispose();
+            String nombre = jTF_usuario.getText();
+            String contraseña = Ayuda.construirContraseña(jPF_contraseña.getPassword());
+            usuario = listaUsuarios.iniciarSesion(nombre, contraseña);
+            if (usuario == null) {
+                jL_error1.setVisible(false);
+                jL_error2.setVisible(true);
+            }
+            else {
+                ArchivosPeliculas.setUsuario(usuario);
+                this.dispose();
+            }
         }
-    }//GEN-LAST:event_jB_registrarActionPerformed
+            
+    }//GEN-LAST:event_jB_iniciarActionPerformed
 
     private void jB_cerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_cerrarActionPerformed
         this.dispose();
     }//GEN-LAST:event_jB_cerrarActionPerformed
 
- 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_cerrar;
-    private javax.swing.JButton jB_registrar;
-    private javax.swing.JLabel jL_error;
+    private javax.swing.JButton jB_iniciar;
+    private javax.swing.JLabel jL_error1;
+    private javax.swing.JLabel jL_error2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPasswordField jPF_contraseña;

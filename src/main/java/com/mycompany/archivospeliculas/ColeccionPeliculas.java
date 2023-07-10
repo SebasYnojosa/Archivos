@@ -53,7 +53,12 @@ public class ColeccionPeliculas {
         }
         for (int i = 0; i < tamanio(); ++i) {
             if (obtener(i).getIdentificador() == id) {
-                System.out.println(obtener(i));
+                Pelicula p = obtener(i);
+                Ayuda.mensajeExito(String.format("Se encontro la pelicula con ID %d\n"
+                        + "Nombre: %s \n"
+                        + "Actor principal: %s \n"
+                        + "Género: %s \n"
+                        + "Duración en minutos: %d", p.getIdentificador(),p.getNombre(), p.getActorPrincipal(), p.getGenero(), p.getDuracion()));
                 return;
             }
         }
@@ -71,10 +76,6 @@ public class ColeccionPeliculas {
     }
 
     public void eliminar(int id){
-        if (coleccionVacia()) {
-            Ayuda.mensajeError("No hay peliculas en la coleccion");
-            return;
-        }
         for (int i = 0; i < tamanio(); ++i) {
             if (obtener(i).getIdentificador() == id) {
                 Ayuda.mensajeExito("Se elimino la pelicula: " + coleccion.remove(i).getNombre());
@@ -85,67 +86,17 @@ public class ColeccionPeliculas {
         Ayuda.mensajeError("No se encontró una pelicula con este ID");
     }
 
-    // forNormal
-    public void mostrarFor() {
-        if (coleccionVacia())
-            Ayuda.mensajeError("No hay peliculas en la coleccion");
-        else {
-            coleccion = archivoSerializable.leerArchivo();
-            for (int i = 0; i < tamanio(); ++i) {
-                System.out.println(obtener(i));
-            }
-        }
-    }
-
-    // forEach
-    public void mostrarForEach() {
-        if (coleccionVacia())
-            Ayuda.mensajeError("No hay peliculas en la coleccion");
-        else {
-            coleccion = archivoSerializable.leerArchivo();
-            for (Pelicula p : coleccion) {
-                System.out.println(p);
-            }
-        }
-    }
-
-    // iterator
-    public void mostrarIterator() {
-        if (coleccionVacia())
-            Ayuda.mensajeError("No hay peliculas en la coleccion");
-        else {
-            coleccion = archivoSerializable.leerArchivo();
-            Iterator<Pelicula> it = coleccion.iterator();
-            while (it.hasNext()) {
-                System.out.println(it.next());
-            }
-        }
-    }
-
     // Ordenar por nombre
-    public void mostrarOrdenadoPorNombre() {
-        if (coleccionVacia()) {
-            Ayuda.mensajeError("No hay peliculas en la coleccion");
-        }
-        else {
-            coleccion = archivoSerializable.leerArchivo();
-            Collections.sort(coleccion);
-            for (Pelicula p : coleccion) {
-                System.out.println(p);
-            }
-        }
+    public ArrayList<Pelicula> ordenarPorNombre() {
+        coleccion = archivoSerializable.leerArchivo();
+        Collections.sort(coleccion);
+        return coleccion;
     }
 
     // Ordenar por duracion al reves
-    public void mostrarOrdenadoPorDuracionInverso() {
-        if (coleccionVacia())
-            Ayuda.mensajeError("No hay peliculas en la coleccion");
-        else {
-            coleccion = archivoSerializable.leerArchivo();
-            coleccion.sort(new ComparadorDuracionInverso());
-            for (Pelicula p : coleccion) {
-                System.out.println(p);
-            }
-        }
+    public ArrayList<Pelicula> ordenarPorDuracionInverso() {
+        coleccion = archivoSerializable.leerArchivo();
+        coleccion.sort(new ComparadorDuracionInverso());
+        return coleccion; 
     }
 }
